@@ -3,7 +3,23 @@
   import DepthCard from './DepthCard.svelte';
   import Sculpture from './Sculpture.svelte';
   import Motion from './Motion.svelte';
-  import { onDestroy } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
+  let compact = $state(false);
+  let menuOpen = $state(false);
+  let activeJourney = $state(-1);
+  let introRevealed = $state(false);
+  onMount(() => {
+    const controller = new AbortController();
+    const update = () => { const next = window.scrollY > 100; if (!next) menuOpen = false; compact = next; if (window.scrollY > 12) introRevealed = true; };
+    const reveal = () => { introRevealed = true; };
+    const keyboard = (event) => { if (['ArrowDown', 'PageDown', ' '].includes(event.key)) reveal(); };
+    window.addEventListener('scroll', update, { passive: true, signal: controller.signal });
+    window.addEventListener('wheel', reveal, { passive: true, once: true, signal: controller.signal });
+    window.addEventListener('touchmove', reveal, { passive: true, once: true, signal: controller.signal });
+    window.addEventListener('keydown', keyboard, { signal: controller.signal });
+    update();
+    return () => controller.abort();
+  });
   import { profile, projects, skills, experience } from '../lib/data.js';
   let filter = $state('All work');
   let selected = $state(null);
@@ -24,13 +40,14 @@
 <Motion />
 <div id="top" class="portfolio">
   <a class="skip" href="#main">Skip to content</a>
-  <header class="nav-shell">
+  <header class:compact class:expanded={menuOpen} class="nav-shell">
+    <button class="nav-monogram" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onclick={() => menuOpen = !menuOpen}>R</button>
     <a href="#top" class="identity">Ramkrishna More <span class="location">/ <span>{profile.location}</span></span></a>
     <nav aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About me</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé <span>↗</span></a></nav>
   </header>
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class:revealed={introRevealed} class="hero" aria-labelledby="hero-title">
       <div class="hero-heading"><p class="overline">RAMKRISHNA MORE / FULL-STACK PRODUCT ENGINEER</p><h1 id="hero-title"><Words text="Full-stack thinking."/><br/><span><Words text="Products that matter."/></span></h1><p class="hero-description">Full-stack engineering, informed by experience and accelerated by AI.</p><a class="pill hero-button" href="#work">Explore selected work <span>↘</span></a></div>
       <div class="portrait-stage">
         <div class="side-note note-left"><span class="blue-dot"></span><p>Thoughtful interfaces.<br/>Dependable engineering.</p><svg viewBox="0 0 100 65" aria-hidden="true"><path d="M5 10 Q25 55 85 36 M74 30 L87 36 L78 47"/></svg></div>
@@ -69,7 +86,12 @@
 
     <section class="about container" id="about" aria-labelledby="about-title"><div class="section-heading"><div><p class="overline">02 / THE PERSON BEHIND THE CODE</p><h2 id="about-title"><Words text="Curiosity first."/><br/><Words text="Craft, always."/></h2></div><span class="asterisk" aria-hidden="true">✳</span></div><div class="about-grid"><div class="about-text"><p class="lead">I make complex things feel simple.</p><p>I bring full-stack experience and practical AI tools together to build useful products and thoughtful experiences. Based in Pune, building at Accenture.</p><a class="inline-link" href={profile.linkedin} target="_blank" rel="noreferrer">A little more about me on LinkedIn ↗</a></div><div class="about-facts"><p class="overline">THE TOOLS I REACH FOR</p><div class="skill-list">{#each skills.slice(0,6) as skill}<span>{skill}</span>{/each}</div><details class="education"><summary>Education <span>+</span></summary><h3>B.E. in Information Technology</h3><p>PVG College of Engineering, Nashik<br/>University of Pune · 2022</p><small>First Class with Distinction</small></details></div></div></section>
 
-    <section class="experience container" id="experience" aria-labelledby="experience-title"><div class="section-heading"><div><p class="overline">03 / THE JOURNEY</p><h2 id="experience-title"><Words text="Built through experience."/><br/><Words text="Driven by curiosity."/></h2></div><a class="pill" href={profile.resume} download>Download résumé <span>↓</span></a></div><div class="journey-list"><article class="journey-step"><span>01 / THE FOUNDATION · 2023</span><h3>Start with people.</h3><p>At WNS, I learned to listen, investigate and solve real problems in technical support.</p></article><article class="journey-step"><span>02 / BUILDING INDEPENDENTLY · 2023—2024</span><h3>Ideas became products.</h3><p>As a freelance developer, I built Automart and two more e-commerce websites, turning business needs into working experiences.</p></article><article class="journey-step"><span>03 / GROWING AT ACCENTURE · 2024—PRESENT</span><h3>From Associate to Analyst.</h3><p>At Accenture, I grew from Associate to Analyst while building enterprise applications, reusable interfaces and dependable integrations.</p><details class="role-details"><summary>More about the work <span>+</span></summary><p>Working across Angular, TypeScript, APIs and enterprise systems, with a focus on performance, maintainability and solving difficult problems.</p></details></article><article class="journey-step"><span>04 / WHAT'S NEXT</span><h3>Experience, amplified by AI.</h3><p>I’m exploring how AI and sound engineering judgment can help turn ambitious ideas into products that matter.</p></article></div></section>
+    <section class="experience container" id="experience" aria-labelledby="experience-title"><div class="section-heading"><div><p class="overline">03 / THE JOURNEY</p><h2 id="experience-title"><Words text="Built through experience."/><br/><Words text="Driven by curiosity."/></h2></div><a class="pill" href={profile.resume} download>Download résumé <span>↓</span></a></div><div class="journey-list">{#each [
+      {label:'01 / THE FOUNDATION · 2023',title:'Start with people.',summary:'WNS · Technical support',body:'At WNS, I learned to listen, investigate and solve real problems in technical support.'},
+      {label:'02 / BUILDING INDEPENDENTLY · AUG 2023—AUG 2024',title:'Ideas became products.',summary:'Freelance · E-commerce',body:'As a freelance developer, I built Automart and two more e-commerce websites, turning business needs into working experiences.'},
+      {label:'03 / GROWING AT ACCENTURE · 2024—PRESENT',title:'From Associate to Analyst.',summary:'Accenture · Enterprise engineering',body:'At Accenture, I grew from Associate to Analyst while building enterprise applications, reusable interfaces and dependable integrations across Angular, TypeScript and APIs.'},
+      {label:"04 / WHAT'S NEXT",title:'Experience, amplified by AI.',summary:'What I’m exploring',body:'I’m exploring how AI and sound engineering judgment can help turn ambitious ideas into products that matter.'}
+    ] as step, index}<article class="journey-step" class:open={activeJourney === index}><button class="journey-toggle" aria-expanded={activeJourney === index} onclick={() => activeJourney = activeJourney === index ? -1 : index}><span class="journey-label">{step.label}</span><span class="journey-title">{step.title}</span><span class="journey-summary">{step.summary}</span><i aria-hidden="true">↗</i></button><div class="journey-content" aria-hidden={activeJourney !== index} inert={activeJourney !== index}><div><p>{step.body}</p></div></div></article>{/each}</div></section>
 
     <section class="contact" id="contact"><div class="container"><p class="overline">04 / GOOD THINGS START WITH A CONVERSATION</p><h2><Words text="Something in mind?"/><br/><span class="contact-word"><Words text="Let’s build it."/></span></h2><p>Hiring? Let’s have a conversation.<br/>Product owner? Let’s build your idea.<br/>Contributor or builder? Let’s build together.</p><div class="contact-actions"><a class="pill dark-pill" href={`mailto:${profile.email}`}>Say hello <span>↗</span></a><button class="copy-email" onclick={copyEmail} aria-label="Copy email address">{profile.email}<span>{copied ? '✓' : '⧉'}</span></button><span class="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span></div></div></section>
   </main>
