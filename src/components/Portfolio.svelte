@@ -3,6 +3,7 @@
   import DepthCard from './DepthCard.svelte';
   import Sculpture from './Sculpture.svelte';
   import Motion from './Motion.svelte';
+  import PersonalHub from './PersonalHub.svelte';
   import ViewControls from './ViewControls.svelte';
   import { onDestroy, onMount } from 'svelte';
   let compact = $state(false);
@@ -19,7 +20,8 @@
     window.addEventListener('touchmove', reveal, { passive: true, once: true, signal: controller.signal });
     window.addEventListener('keydown', keyboard, { signal: controller.signal });
     update();
-    return () => controller.abort();
+    const anchorFrame = requestAnimationFrame(() => { const id = window.location.hash.slice(1); if (id) document.getElementById(id)?.scrollIntoView({ behavior: 'instant' }); });
+    return () => { controller.abort(); cancelAnimationFrame(anchorFrame); };
   });
   import { profile, projects, skills, experience } from '../lib/data.js';
   let filter = $state('All work');
@@ -95,7 +97,9 @@
       {label:"04 / WHAT'S NEXT",title:'Experience, amplified by AI.',summary:'What I’m exploring',body:'I’m exploring how AI and sound engineering judgment can help turn ambitious ideas into products that matter.'}
     ] as step, index}<article class="journey-step" class:open={activeJourney === index}><button class="journey-toggle" aria-expanded={activeJourney === index} onclick={() => activeJourney = activeJourney === index ? -1 : index}><span class="journey-label">{step.label}</span><span class="journey-title">{step.title}</span><span class="journey-summary">{step.summary}</span><i aria-hidden="true">↗</i></button><div class="journey-content" aria-hidden={activeJourney !== index} inert={activeJourney !== index}><div><p>{step.body}</p></div></div></article>{/each}</div></section>
 
-    <section class="contact" id="contact"><div class="container"><p class="overline">04 / GOOD THINGS START WITH A CONVERSATION</p><h2><Words text="Something in mind?"/><br/><span class="contact-word"><Words text="Let’s build it."/></span></h2><p>Hiring? Let’s have a conversation.<br/>Product owner? Let’s build your idea.<br/>Contributor or builder? Let’s build together.</p><div class="contact-actions"><a class="pill dark-pill" href={`mailto:${profile.email}`}>Say hello <span>↗</span></a><button class="copy-email" onclick={copyEmail} aria-label="Copy email address">{profile.email}<span>{copied ? '✓' : '⧉'}</span></button><span class="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span></div></div></section>
+    <PersonalHub />
+
+    <section class="contact" id="contact"><div class="container"><p class="overline">05 / GOOD THINGS START WITH A CONVERSATION</p><h2><Words text="Something in mind?"/><br/><span class="contact-word"><Words text="Let’s build it."/></span></h2><p>Hiring? Let’s have a conversation.<br/>Product owner? Let’s build your idea.<br/>Contributor or builder? Let’s build together.</p><div class="contact-actions"><a class="pill dark-pill" href={`mailto:${profile.email}`}>Say hello <span>↗</span></a><button class="copy-email" onclick={copyEmail} aria-label="Copy email address">{profile.email}<span>{copied ? '✓' : '⧉'}</span></button><span class="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span></div></div></section>
   </main>
   <div class="build-credit container"><p>Thought, designed, architected and brought to life by Ramkrishna More.</p><span>Built with GPT Astra and Claude Opus models.</span></div>
   <footer class="container"><a class="footer-name" href="#top">Ramkrishna More<span>↗</span></a><span>Made with Madness.</span><div><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé ↗</a></div><small>© {new Date().getFullYear()}</small></footer>

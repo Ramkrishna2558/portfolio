@@ -19,7 +19,7 @@
 <div class="cursor-aura" aria-hidden="true"></div>
 <div class="touch-pulse" aria-hidden="true"></div>
 <nav class="chapter-nav" aria-label="Page chapters">
-  {#each [['top','Introduction'],['work','Selected work'],['about','About'],['experience','Experience'],['contact','Contact']] as [id,label]}
+  {#each [['top','Introduction'],['work','Selected work'],['about','About'],['experience','Experience'],['beyond','Beyond the build'],['contact','Contact']] as [id,label]}
     <a href={`#${id}`} class:current={active === id} aria-current={active === id ? 'location' : undefined} aria-label={label}><span>{label}</span><i></i></a>
   {/each}
 </nav>

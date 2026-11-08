@@ -5,3 +5,5 @@ import './styles/motion.css';
 import './styles/depth.css';
 mount(App, { target: document.getElementById('app') });
 import './styles/views.css';
+
+import './styles/hub.css';

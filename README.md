@@ -33,3 +33,7 @@ The bottom-left controls switch between light/dark themes and Reader mode. Prefe
 
 
 Haptic feedback uses short, rate-limited pulses on confirmed clicks, holds and settled section changes. Touch scrolling does not trigger press vibrations. Unsupported hardware is silent. Run `node --test tests/*.test.js` to check activation, repeat suppression and cancellation. Physical motor response must be assessed on a supported device. Dark mode uses a white outlined cursor and themed hover/focus surfaces.
+
+## Personal hub
+
+`src/components/PersonalHub.svelte` contains the Beyond the build section, with social links, a photo/bio, an optional Spotify player and a Buy Me a Coffee link. Links and the music selection were reviewed against own.page/ram; the layout is original. The Spotify iframe loads only after the visitor requests it, and the external Spotify link remains available. Update social handles and the album ID in this component.
