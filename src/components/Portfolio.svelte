@@ -3,6 +3,7 @@
   import DepthCard from './DepthCard.svelte';
   import Sculpture from './Sculpture.svelte';
   import Motion from './Motion.svelte';
+  import ViewControls from './ViewControls.svelte';
   import { onDestroy, onMount } from 'svelte';
   let compact = $state(false);
   let menuOpen = $state(false);
@@ -35,9 +36,10 @@
   }
 </script>
 
-<svelte:head><title>Ramkrishna More — Full-stack Product Engineer</title></svelte:head>
+<svelte:head><title>Ramkrishna More — Product & Applied AI Engineer</title></svelte:head>
 
 <Motion />
+<ViewControls />
 <div id="top" class="portfolio">
   <a class="skip" href="#main">Skip to content</a>
   <header class:compact class:expanded={menuOpen} class="nav-shell">
@@ -48,7 +50,7 @@
 
   <main id="main">
     <section class:revealed={introRevealed} class="hero" aria-labelledby="hero-title">
-      <div class="hero-heading"><p class="overline">RAMKRISHNA MORE / FULL-STACK PRODUCT ENGINEER</p><h1 id="hero-title"><Words text="Full-stack thinking."/><br/><span><Words text="Products that matter."/></span></h1><p class="hero-description">Full-stack engineering, informed by experience and accelerated by AI.</p><a class="pill hero-button" href="#work">Explore selected work <span>↘</span></a></div>
+      <div class="hero-heading"><p class="overline">RAMKRISHNA MORE / PRODUCT ENGINEER / FORWARD-DEPLOYED MINDSET</p><h1 id="hero-title"><Words text="From ambiguity."/><br/><span><Words text="To real-world impact."/></span></h1><p class="hero-description">Close to the problem. Hands-on with the product. Accelerated by AI.</p><a class="pill hero-button" href="#work"><span class="launch-label">Explore selected work</span><span class="launch-orbit" aria-hidden="true"><span>↓</span></span></a></div>
       <div class="portrait-stage">
         <div class="side-note note-left"><span class="blue-dot"></span><p>Thoughtful interfaces.<br/>Dependable engineering.</p><svg viewBox="0 0 100 65" aria-hidden="true"><path d="M5 10 Q25 55 85 36 M74 30 L87 36 L78 47"/></svg></div>
         <DepthCard class="portrait-depth"><div class="portrait-wrap"><img src={profile.photo} data-atropos-offset="3" alt="Ramkrishna More" width="400" height="400" fetchpriority="high"/><div class="photo-fade"></div><span class="portrait-caption" data-atropos-offset="12">THE PERSON BEHIND THE CODE <i>↗</i></span></div></DepthCard>
@@ -84,7 +86,7 @@
       <a class="github-link" href={profile.github} target="_blank" rel="noreferrer">More of the making on GitHub <span>↗</span></a>
     </section>
 
-    <section class="about container" id="about" aria-labelledby="about-title"><div class="section-heading"><div><p class="overline">02 / THE PERSON BEHIND THE CODE</p><h2 id="about-title"><Words text="Curiosity first."/><br/><Words text="Craft, always."/></h2></div><span class="asterisk" aria-hidden="true">✳</span></div><div class="about-grid"><div class="about-text"><p class="lead">I make complex things feel simple.</p><p>I bring full-stack experience and practical AI tools together to build useful products and thoughtful experiences. Based in Pune, building at Accenture.</p><a class="inline-link" href={profile.linkedin} target="_blank" rel="noreferrer">A little more about me on LinkedIn ↗</a></div><div class="about-facts"><p class="overline">THE TOOLS I REACH FOR</p><div class="skill-list">{#each skills.slice(0,6) as skill}<span>{skill}</span>{/each}</div><details class="education"><summary>Education <span>+</span></summary><h3>B.E. in Information Technology</h3><p>PVG College of Engineering, Nashik<br/>University of Pune · 2022</p><small>First Class with Distinction</small></details></div></div></section>
+    <section class="about container" id="about" aria-labelledby="about-title"><div class="section-heading"><div><p class="overline">02 / THE PERSON BEHIND THE CODE</p><h2 id="about-title"><Words text="Curiosity first."/><br/><Words text="Craft, always."/></h2></div><span class="asterisk" aria-hidden="true">✳</span></div><div class="about-grid"><div class="about-text"><p class="lead">I make complex things feel simple.</p><p>I connect real business problems with working software. My next chapter is forward-deployed engineering: working closely with users, shaping solutions and carrying them through to delivery.</p><a class="inline-link" href={profile.linkedin} target="_blank" rel="noreferrer">A little more about me on LinkedIn ↗</a></div><div class="about-facts"><p class="overline">FROM PROBLEM TO PRODUCTION</p><div class="capability-list"><div><h3>Understand & shape</h3><p>Technical problem-solving, user workflows, reusable architecture and product thinking.</p></div><div><h3>Build & connect</h3><p>Angular, React, TypeScript, RxJS, REST APIs and shared application tooling.</p></div><div><h3>Test & deliver</h3><p>Vitest, Git, performance profiling, dependency audits and reliable integrations.</p></div><div><h3>Explore the next frontier</h3><p>AI-assisted development with GPT, Claude and Copilot. Growing toward applied AI and forward-deployed delivery.</p></div></div><details class="education"><summary>Education <span>+</span></summary><h3>B.E. in Information Technology</h3><p>PVG College of Engineering, Nashik<br/>University of Pune · 2022</p><small>First Class with Distinction</small></details></div></div></section>
 
     <section class="experience container" id="experience" aria-labelledby="experience-title"><div class="section-heading"><div><p class="overline">03 / THE JOURNEY</p><h2 id="experience-title"><Words text="Built through experience."/><br/><Words text="Driven by curiosity."/></h2></div><a class="pill" href={profile.resume} download>Download résumé <span>↓</span></a></div><div class="journey-list">{#each [
       {label:'01 / THE FOUNDATION · 2023',title:'Start with people.',summary:'WNS · Technical support',body:'At WNS, I learned to listen, investigate and solve real problems in technical support.'},
@@ -95,7 +97,8 @@
 
     <section class="contact" id="contact"><div class="container"><p class="overline">04 / GOOD THINGS START WITH A CONVERSATION</p><h2><Words text="Something in mind?"/><br/><span class="contact-word"><Words text="Let’s build it."/></span></h2><p>Hiring? Let’s have a conversation.<br/>Product owner? Let’s build your idea.<br/>Contributor or builder? Let’s build together.</p><div class="contact-actions"><a class="pill dark-pill" href={`mailto:${profile.email}`}>Say hello <span>↗</span></a><button class="copy-email" onclick={copyEmail} aria-label="Copy email address">{profile.email}<span>{copied ? '✓' : '⧉'}</span></button><span class="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span></div></div></section>
   </main>
-  <footer class="container"><a class="footer-name" href="#top">Ramkrishna More<span>↗</span></a><span>Thoughtfully built. Always evolving.</span><div><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé ↗</a></div><small>© {new Date().getFullYear()}</small></footer>
+  <div class="build-credit container"><p>Thought, designed, architected and brought to life by Ramkrishna More.</p><span>Built with GPT Astra and Claude Opus models.</span></div>
+  <footer class="container"><a class="footer-name" href="#top">Ramkrishna More<span>↗</span></a><span>Made with Madness.</span><div><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé ↗</a></div><small>© {new Date().getFullYear()}</small></footer>
 </div>
 
 <dialog bind:this={dialog} onclose={() => selected = null} onclick={(event) => {if(event.target === dialog) dialog.close();}} onkeydown={(event) => {if(event.key === 'Escape') dialog.close();}} aria-labelledby="case-title">

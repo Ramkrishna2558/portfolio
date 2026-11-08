@@ -7,10 +7,11 @@
   onMount(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     systemReduced = media.matches;
-    controller = enhanceMotion({ allowed: () => !systemReduced, haptic: () => !systemReduced, section: (id) => active = id });
+    controller = enhanceMotion({ allowed: () => !systemReduced && !document.documentElement.classList.contains('reader-mode'), haptic: () => !systemReduced && !document.documentElement.classList.contains('reader-mode'), section: (id) => active = id });
     const change = () => { systemReduced = media.matches; controller.refresh(); };
     media.addEventListener('change', change);
-    return () => { media.removeEventListener('change', change); controller.destroy(); };
+    document.addEventListener('viewchange', change);
+    return () => { document.removeEventListener('viewchange', change); media.removeEventListener('change', change); controller.destroy(); };
   });
 </script>
 

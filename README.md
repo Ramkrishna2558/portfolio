@@ -26,3 +26,8 @@ Edit `src/lib/data.js` for profile details and featured project content. The pag
 Push this project to a GitHub repository with `main` as its default branch, then choose **Settings → Pages → Build and deployment → GitHub Actions**. The workflow checks, builds and publishes the site on each push to `main`. Vite uses a relative base so the build works both at a domain root and under a repository path. The resulting URL appears in the workflow's deploy job and repository Pages settings.
 
 The 3D scene loads as a separate chunk near the viewport and pauses offscreen. Native scrolling is retained. Decorative motion honors the device's reduced-motion setting. Vibration is browser- and device-dependent, requires prior user interaction, and browsers do not expose hardware intensity controls.
+
+## Display modes
+
+The bottom-left controls switch between light/dark themes and Reader mode. Preferences persist locally. Reader mode increases text size, simplifies layouts and disables decorative motion. The toolkit presents current engineering skills separately from the forward-deployed and applied-AI direction.
+
