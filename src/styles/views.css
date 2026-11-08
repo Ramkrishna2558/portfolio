@@ -5,3 +5,18 @@ button,.pill,summary{transition:background-color .4s,box-shadow .4s,color .4s,sc
 .reader-mode{scroll-behavior:auto!important}.reader-mode body{font-size:18px}.reader-mode *, .reader-mode *::before,.reader-mode *::after{animation:none!important;transition:none!important}.reader-mode .depth-interlude,.reader-mode .chapter-nav,.reader-mode .cursor-aura,.reader-mode .touch-pulse{display:none}.reader-mode .container{max-width:980px}.reader-mode p,.reader-mode .repo-row p,.reader-mode .journey-step p,.reader-mode .capability-list p,.reader-mode .about-text>p,.reader-mode .contact p:not(.overline){font-size:18px!important;line-height:1.85!important;color:inherit}.reader-mode .overline,.reader-mode .project-meta,.reader-mode .tags>span,.reader-mode .journey-label,.reader-mode .journey-summary,.reader-mode .build-credit span{font-size:14px!important}.reader-mode .journey-list,.reader-mode .about-grid{grid-template-columns:1fr}.reader-mode .repo-row{grid-template-columns:1fr;gap:12px}.reader-mode .depth-word{opacity:1!important;transform:none!important;color:inherit!important}.reader-mode .project,.reader-mode .journey-step,.reader-mode .side-note{opacity:1!important;translate:none!important}.reader-mode .side-note{display:none}.reader-mode .hero-description{padding-inline:20px}.reader-mode .journey-toggle{min-height:60px}.reader-mode .view-controls button{min-height:44px}.reader-mode .build-credit{padding-bottom:70px}
 @media(max-width:700px){.view-controls{left:14px;bottom:12px}.view-controls button{padding:10px 12px}.build-credit{padding-bottom:60px}.reader-mode .project-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){button,.pill,.launch-orbit,.launch-orbit>span,.launch-label,.view-controls button span{transition:none!important;transform:none!important;scale:1!important}}
+
+/* Keep all interactive surfaces in the active theme. */
+.dark-theme .repo-row{border-color:#393141;background:transparent}
+.dark-theme .repo-row:hover,.dark-theme .repo-row:focus-visible{background:#262030}
+.dark-theme .repo-row:hover h3,.dark-theme .repo-row:focus-visible h3{color:#fff}
+.dark-theme .repo-row:hover p,.dark-theme .repo-row:focus-visible p{color:#d0c7dc}
+.dark-theme .repo-row small{color:#b5a8c6}
+.dark-theme .chapter-nav span{background:#302739;color:#eee7f7}
+.dark-theme .sculpture-controls button{background:#302739;color:#eee7f7;border-color:#62516e}
+.dark-theme .sculpture-controls button:hover{background:#463650}
+.dark-theme .skill-list span:hover,.dark-theme .tags span:hover{background:#44334f;border-color:#766087}
+.dark-theme .cursor-aura{border-color:#eee7fa55;background:transparent}
+.dark-theme .cursor-aura.interactive{border-color:#eee7fa80;background:#eee7fa08}
+.dark-theme .touch-pulse{border-color:#d1bee9;background:#d1bee906}
+@media(hover:hover) and (pointer:fine){html.dark-theme,html.dark-theme body,html.dark-theme a,html.dark-theme button,html.dark-theme summary,html.dark-theme [role=button]{cursor:url('/cursor-light.svg') 6 3,auto}html.dark-theme input,html.dark-theme textarea,html.dark-theme [contenteditable=true]{cursor:text}}

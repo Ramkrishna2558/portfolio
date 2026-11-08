@@ -31,3 +31,5 @@ The 3D scene loads as a separate chunk near the viewport and pauses offscreen. N
 
 The bottom-left controls switch between light/dark themes and Reader mode. Preferences persist locally. Reader mode increases text size, simplifies layouts and disables decorative motion. The toolkit presents current engineering skills separately from the forward-deployed and applied-AI direction.
 
+
+Haptic feedback uses short, rate-limited pulses on confirmed clicks, holds and settled section changes. Touch scrolling does not trigger press vibrations. Unsupported hardware is silent. Run `node --test tests/*.test.js` to check activation, repeat suppression and cancellation. Physical motor response must be assessed on a supported device. Dark mode uses a white outlined cursor and themed hover/focus surfaces.

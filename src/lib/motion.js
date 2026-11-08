@@ -1,4 +1,5 @@
 import { createDepthFlow } from './depth-flow.js';
+import { createHaptics } from './haptics.js';
 // Native scrolling and pointer input remain browser-owned. Effects never cancel input.
 export function enhanceMotion(options) {
   const root = document.documentElement;
@@ -8,16 +9,17 @@ export function enhanceMotion(options) {
   const progress = document.querySelector('.reading-progress span');
   const abort = new AbortController();
   const listen = (target, type, handler, extra = {}) => target.addEventListener(type, handler, { signal: abort.signal, ...extra });
-  let frame = 0, scrollFrame = 0, holdTimer, down, hovered, x = 0, y = 0, tx = 0, ty = 0, vx = 0, vy = 0, lastTime = 0, sectionId = 'top', activated = false, pulseAnimation;
+  let frame = 0, scrollFrame = 0, holdTimer, down, hovered, x = 0, y = 0, tx = 0, ty = 0, vx = 0, vy = 0, lastTime = 0, sectionId = 'top', pulseAnimation;
   const animations = new Set();
   const track = animation => { animations.add(animation); animation.finished.catch(() => { }).finally(() => animations.delete(animation)); return animation; };
-  const vibrate = (duration = 6) => { if (activated && options.haptic() && options.allowed()) navigator.vibrate?.(duration); };
+  const haptics = createHaptics({ allowed: () => !document.hidden && options.haptic() && options.allowed(), vibrate: duration => navigator.vibrate?.(duration) ?? false });
+  let sectionPending = false, settleTimer;
   function burst(px, py, hold = false) {
     if (!options.allowed()) return;
     pulseAnimation?.cancel();
     pulse.style.left = `${px}px`; pulse.style.top = `${py}px`;
-    pulseAnimation = track(pulse.animate([{ opacity: .22, transform: 'translate(-50%,-50%) scale(.15)' }, { opacity: 0, transform: `translate(-50%,-50%) scale(${hold ? 1.8 : 1})` }], { duration: hold ? 650 : 450, easing: 'cubic-bezier(.16,1,.3,1)' }));
-    vibrate(hold ? 12 : 5);
+    pulseAnimation = track(pulse.animate([{ opacity: .13, transform: 'translate(-50%,-50%) scale(.4)' }, { opacity: 0, transform: `translate(-50%,-50%) scale(${hold ? 1.25 : .85})` }], { duration: hold ? 700 : 550, easing: 'cubic-bezier(.16,1,.3,1)' }));
+
   }
   function spring(time) {
     frame = 0;
@@ -43,15 +45,16 @@ export function enhanceMotion(options) {
   }, { passive: true });
   function release() { clearTimeout(holdTimer); down = null; root.classList.remove('pointer-held'); }
   listen(document, 'pointerdown', e => {
-    activated = true;
-    if (e.button !== 0 || !e.target.closest('button,a')) return;
+    haptics.activate();
+    if (e.button !== 0 || !e.target.closest('button,a,summary')) return;
     down = { x: e.clientX, y: e.clientY };
     root.classList.add('pointer-held'); burst(e.clientX, e.clientY);
-    holdTimer = setTimeout(() => { if (down) burst(down.x, down.y, true); }, 480);
+    holdTimer = setTimeout(() => { if (down) { burst(down.x, down.y, true); haptics.hold(); } }, 600);
   }, { passive: true });
+  listen(document, 'click', e => { if (e.target.closest('button,a,summary')) { haptics.activate(); haptics.tap(); } });
   listen(document, 'pointerup', release, { passive: true }); listen(document, 'pointercancel', release, { passive: true });
   listen(document, 'pointerout', e => { if (!e.relatedTarget) { aura.classList.remove('visible'); resetHover(); release(); } });
-  listen(window, 'blur', () => { aura.classList.remove('visible'); resetHover(); release(); });
+  listen(window, 'blur', () => { aura.classList.remove('visible'); resetHover(); release(); haptics.stop(); });
   const depthFlow = createDepthFlow(options);
   const sections = ['top', 'work', 'about', 'experience', 'contact'].map(id => document.getElementById(id));
   function scrollUpdate() {
@@ -60,16 +63,16 @@ export function enhanceMotion(options) {
     progress.style.transform = `scaleX(${total > 0 ? Math.min(1, scrollY / total) : 0})`;
     let current = 'top';
     for (const section of sections.slice(1)) if (section && section.getBoundingClientRect().top < innerHeight * .45) current = section.id;
-    if (current !== sectionId) { sectionId = current; options.section(current); if (options.allowed()) { track(progress.animate([{ filter: 'brightness(1.8)' }, { filter: 'brightness(1)' }], { duration: 500 })); vibrate(8); } }
+    if (current !== sectionId) { sectionId = current; options.section(current); if (options.allowed()) { track(progress.animate([{ filter: 'brightness(1.8)' }, { filter: 'brightness(1)' }], { duration: 500 })); sectionPending = true; haptics.section(); } }
   }
-  listen(window, 'scroll', () => { release(); if (!scrollFrame) scrollFrame = requestAnimationFrame(scrollUpdate); }, { passive: true });
+  listen(window, 'scroll', () => { release(); if (sectionPending) haptics.section(); clearTimeout(settleTimer); settleTimer = setTimeout(() => { sectionPending = false; }, 180); if (!scrollFrame) scrollFrame = requestAnimationFrame(scrollUpdate); }, { passive: true });
   listen(window, 'resize', () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(scrollUpdate); }, { passive: true });
   const seen = new WeakSet();
   const observer = new IntersectionObserver(entries => { for (const entry of entries) { if (!entry.isIntersecting) continue; observer.unobserve(entry.target); if (options.allowed()) track(entry.target.animate([{ opacity: .1, transform: 'perspective(1200px) translate3d(0,80px,-90px) rotateX(9deg) scale(.93)' }, { opacity: 1, transform: 'perspective(1200px) translate3d(0,-5px,0) rotateX(-.7deg) scale(1.006)', offset: .72 }, { opacity: 1, transform: 'perspective(1200px) translate3d(0,0,0) rotateX(0) scale(1)' }], { duration: 1150, easing: 'cubic-bezier(.16,1,.3,1)' })); } }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
   const scan = () => { document.querySelectorAll('.project,.about-text,.about-facts,.job,.repo-row').forEach(el => { if (!seen.has(el)) { seen.add(el); observer.observe(el); } }); };
   const mutation = new MutationObserver(scan); mutation.observe(document.querySelector('main'), { childList: true, subtree: true }); scan();
-  function refresh() { root.classList.toggle('motion-enabled', options.allowed()); depthFlow.update(); if (!options.allowed()) { animations.forEach(a => a.cancel()); cancelAnimationFrame(frame); frame = 0; aura.classList.remove('visible'); resetHover(); release(); } }
-  listen(document, 'visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; release(); aura.classList.remove('visible'); } });
+  function refresh() { root.classList.toggle('motion-enabled', options.allowed()); if (!options.allowed()) haptics.stop(); depthFlow.update(); if (!options.allowed()) { animations.forEach(a => a.cancel()); cancelAnimationFrame(frame); frame = 0; aura.classList.remove('visible'); resetHover(); release(); } }
+  listen(document, 'visibilitychange', () => { if (document.hidden) { haptics.stop(); cancelAnimationFrame(frame); frame = 0; release(); aura.classList.remove('visible'); } });
   refresh(); scrollUpdate();
-  return { refresh, destroy() { depthFlow.destroy(); abort.abort(); observer.disconnect(); mutation.disconnect(); cancelAnimationFrame(frame); cancelAnimationFrame(scrollFrame); clearTimeout(holdTimer); animations.forEach(a => a.cancel()); resetHover(); root.classList.remove('motion-enabled', 'pointer-held'); } };
+  return { refresh, destroy() { haptics.stop(); depthFlow.destroy(); abort.abort(); observer.disconnect(); mutation.disconnect(); cancelAnimationFrame(frame); cancelAnimationFrame(scrollFrame); clearTimeout(holdTimer); clearTimeout(settleTimer); animations.forEach(a => a.cancel()); resetHover(); root.classList.remove('motion-enabled', 'pointer-held'); } };
 }
