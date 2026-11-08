@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.sites-runtime/
+.npm-cache/
+.tools/
+resume-preview.png
+*.tar.gz
+.DS_Store
