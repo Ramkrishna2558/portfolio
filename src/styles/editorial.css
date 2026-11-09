@@ -1,4 +1,56 @@
 /* Keep the work close to the introduction and the reading surface still. */
+.nav-shell {
+  margin-left: max(24px, calc((100% - 1250px) / 2));
+  margin-right: 0;
+  overflow: hidden;
+  transition: width .7s cubic-bezier(.22,1,.36,1), background .5s, box-shadow .5s;
+}
+.nav-content {
+  position: absolute;
+  inset: 0 30px 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition: opacity .32s .18s, transform .55s .1s, visibility 0s;
+}
+.nav-shell.compact .identity { display: block; }
+.nav-shell.compact nav { display: flex; }
+.nav-shell.compact:not(.expanded) .nav-content {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-12px);
+  transition: opacity .18s, transform .35s, visibility 0s .18s;
+}
+.nav-shell.compact.expanded .nav-content { left: 72px; right: 22px; }
+.nav-shell .nav-monogram {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  left: 9px;
+  top: 9px;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(.8);
+  transition: opacity .2s, transform .4s, visibility 0s .2s;
+}
+.nav-shell.compact .nav-monogram {
+  display: grid;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: opacity .3s .2s, transform .5s .1s, visibility 0s;
+}
+@media (max-width: 700px) {
+  .nav-shell { margin-left: 15px; }
+  .nav-content { left: 20px; right: 20px; gap: 12px; }
+  .nav-shell.compact.expanded .nav-content { right: 14px; gap: 12px; }
+  .nav-shell.compact.expanded .identity { max-width: 90px; white-space: normal; }
+}
 .hero-heading { margin-top: 45px; }
 .hero h1 { font-size: clamp(36px, 4.4vw, 62px); }
 .hero-description { font-size: 15px; max-width: 590px; padding-inline: 20px; }

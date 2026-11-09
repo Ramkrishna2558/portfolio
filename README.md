@@ -25,7 +25,7 @@ Edit `src/lib/data.js` for profile details and featured project content. The pag
 
 Push this project to a GitHub repository with `main` as its default branch, then choose **Settings â†’ Pages â†’ Build and deployment â†’ GitHub Actions**. The workflow checks, builds and publishes the site on each push to `main`. Vite uses a relative base so the build works both at a domain root and under a repository path. The resulting URL appears in the workflow's deploy job and repository Pages settings.
 
-The 3D scene loads as a separate chunk near the viewport and pauses offscreen. Native scrolling is retained. Decorative motion honors the device's reduced-motion setting. Vibration is browser- and device-dependent, requires prior user interaction, and browsers do not expose hardware intensity controls.
+Native scrolling is retained. Decorative motion honors the device's reduced-motion setting. Vibration is browser- and device-dependent, requires prior user interaction, and browsers do not expose hardware intensity controls.
 
 ## Display modes
 
@@ -40,7 +40,7 @@ Haptic feedback uses short, rate-limited pulses on confirmed clicks, holds and s
 
 ## Evidence and editorial structure
 
-The hero leads directly to selected work. The decorative 3D interlude follows the projects and loads near the viewport. `src/styles/editorial.css` contains the reading and interaction refinements.
+The hero leads directly to selected work. The decorative 3D interlude has been removed; the portrait retains its subtle depth interaction. `src/styles/editorial.css` contains the reading and interaction refinements.
 
 MTSE's case study links to inspected API, validation and routing source. Its overview and storefront currently disagree on framework; the case study explicitly limits its claims to the shared library. Résumé metrics are labeled as self-reported, without published baseline or coverage artifacts. Automart uses a delivery-scope diagram, not a reconstructed screenshot. Add original client-approved screenshots and measurement artifacts when available.
 

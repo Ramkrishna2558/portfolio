@@ -1,7 +1,6 @@
 <script>
   import Words from './Words.svelte';
   import DepthCard from './DepthCard.svelte';
-  import Sculpture from './Sculpture.svelte';
   import Motion from './Motion.svelte';
   import PersonalHub from './PersonalHub.svelte';
   import ViewControls from './ViewControls.svelte';
@@ -12,7 +11,7 @@
   let introRevealed = $state(false);
   onMount(() => {
     const controller = new AbortController();
-    const update = () => { const next = window.scrollY > 100; if (!next) menuOpen = false; compact = next; if (window.scrollY > 12) introRevealed = true; };
+    const update = () => { const next = compact ? window.scrollY > 48 : window.scrollY > 120; if (!next) menuOpen = false; compact = next; if (window.scrollY > 12) introRevealed = true; };
     const reveal = () => { introRevealed = true; };
     const keyboard = (event) => { if (['ArrowDown', 'PageDown', ' '].includes(event.key)) reveal(); };
     window.addEventListener('scroll', update, { passive: true, signal: controller.signal });
@@ -43,18 +42,18 @@
 <div id="top" class="portfolio">
   <a class="skip" href="#main">Skip to content</a>
   <header class:compact class:expanded={menuOpen} class="nav-shell">
-    <button class="nav-monogram" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onclick={() => menuOpen = !menuOpen}>R</button>
-    <a href="#top" class="identity">Ramkrishna More <span class="location">/ <span>{profile.location}</span></span></a>
-    <nav aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About me</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé <span>↗</span></a></nav>
+    <button class="nav-monogram" inert={!compact} aria-hidden={!compact} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onclick={() => menuOpen = !menuOpen}>R</button>
+    <div class="nav-content" inert={compact && !menuOpen} aria-hidden={compact && !menuOpen}><a href="#top" class="identity">Ramkrishna More <span class="location">/ <span>{profile.location}</span></span></a>
+    <nav aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About me</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé <span>↗</span></a></nav></div>
   </header>
 
   <main id="main">
     <section class:revealed={introRevealed} class="hero" aria-labelledby="hero-title">
-      <div class="hero-heading"><p class="overline">RAMKRISHNA MORE / PRODUCT ENGINEER</p><h1 id="hero-title"><Words text="Commerce. Interfaces."/><br/><span><Words text="The systems behind them."/></span></h1><p class="hero-description">Angular and TypeScript at Accenture. Independent commerce builds. Exploring applied AI with engineering judgment.</p><a class="pill hero-button" href="#work"><span class="launch-label">Explore selected work</span><span class="launch-orbit" aria-hidden="true"><span>↓</span></span></a></div>
+      <div class="hero-heading"><p class="overline">PRODUCT ENGINEER</p><h1 id="hero-title"><Words text="Products. Interfaces."/><br/><span><Words text="The systems behind them."/></span></h1><p class="hero-description">Building web applications and shared systems with Angular and TypeScript. Exploring applied AI with engineering judgment.</p><a class="pill hero-button" href="#work"><span class="launch-label">Explore selected work</span><span class="launch-orbit" aria-hidden="true"><span>↓</span></span></a></div>
       <div class="portrait-stage">
         <div class="side-note note-left"><span class="blue-dot"></span><p>Thoughtful interfaces.<br/>Dependable engineering.</p><svg viewBox="0 0 100 65" aria-hidden="true"><path d="M5 10 Q25 55 85 36 M74 30 L87 36 L78 47"/></svg></div>
         <DepthCard class="portrait-depth"><div class="portrait-wrap"><img src={profile.photo} data-atropos-offset="3" alt="Ramkrishna More" width="400" height="400" fetchpriority="high"/><div class="photo-fade"></div><span class="portrait-caption" data-atropos-offset="12">THE PERSON BEHIND THE CODE <i>↗</i></span></div></DepthCard>
-        <div class="side-note note-right"><span class="hello">hello, I’m Ramkrishna.</span><p>Building for the web.<br/>Making the complex feel simple.</p></div>
+        <div class="side-note note-right"><span class="hello">hello, glad you’re here.</span><p>Building for the web.<br/>Making the complex feel simple.</p></div>
         <span class="outline-orbit orbit-left" aria-hidden="true"></span><span class="outline-orbit orbit-right" aria-hidden="true"></span>
       </div>
       <div class="hero-bottom"><span>ANGULAR · TYPESCRIPT · A LITTLE CURIOSITY</span><a href="#work" aria-label="Scroll to selected work">↓</a><span>BASED IN PUNE. BUILDING BEYOND.</span></div>
@@ -91,7 +90,6 @@
       <a class="github-link" href={profile.github} target="_blank" rel="noreferrer">More of the making on GitHub <span>↗</span></a>
     </section>
 
-    <section class="depth-interlude container" aria-label="Interactive 3D introduction"><div class="interlude-copy"><p class="overline">HOW I WORK / WHAT I’M EXPLORING</p><h2><Words text="AI in the workflow."/><br/><Words text="Judgment at the centre."/></h2><p>I use GPT, Claude and Copilot to help build and iterate. This portfolio is one example. Applied AI delivery is the direction I’m growing toward.</p><a class="inline-link" href="https://github.com/Ramkrishna2558/portfolio" target="_blank" rel="noreferrer">Inspect this build ↗</a></div><Sculpture /></section>
     <section class="about container" id="about" aria-labelledby="about-title"><div class="section-heading"><div><p class="overline">02 / THE PERSON BEHIND THE CODE</p><h2 id="about-title"><Words text="Curiosity first."/><br/><Words text="Craft, always."/></h2></div><span class="asterisk" aria-hidden="true">✳</span></div><div class="about-grid"><div class="about-text"><p class="lead">I make complex things feel simple.</p><p>I connect real business problems with working software. My next chapter is forward-deployed engineering: working closely with users, shaping solutions and carrying them through to delivery.</p><a class="inline-link" href={profile.linkedin} target="_blank" rel="noreferrer">A little more about me on LinkedIn ↗</a></div><div class="about-facts"><p class="overline">FROM PROBLEM TO PRODUCTION</p><div class="capability-list"><div><h3>Understand & shape</h3><p>Technical problem-solving, user workflows, reusable architecture and product thinking.</p></div><div><h3>Build & connect</h3><p>Angular, React, TypeScript, RxJS, REST APIs and shared application tooling.</p></div><div><h3>Test & deliver</h3><p>Vitest, Git, performance profiling, dependency audits and reliable integrations.</p></div><div><h3>Explore the next frontier</h3><p>AI-assisted development with GPT, Claude and Copilot. Growing toward applied AI and forward-deployed delivery.</p></div></div><details class="education"><summary>Education <span>+</span></summary><h3>B.E. in Information Technology</h3><p>PVG College of Engineering, Nashik<br/>University of Pune · 2022</p><small>First Class with Distinction</small></details></div></div></section>
 
     <section class="experience container" id="experience" aria-labelledby="experience-title"><div class="section-heading"><div><p class="overline">03 / THE JOURNEY</p><h2 id="experience-title"><Words text="Built through experience."/><br/><Words text="Driven by curiosity."/></h2></div><a class="pill" href={profile.resume} download>Download résumé <span>↓</span></a></div><div class="journey-list">{#each [
@@ -105,8 +103,8 @@
 
     <section class="contact" id="contact"><div class="container"><p class="overline">05 / GOOD THINGS START WITH A CONVERSATION</p><h2><Words text="Something in mind?"/><br/><span class="contact-word"><Words text="Let’s build it."/></span></h2><p>Hiring? Let’s have a conversation.<br/>Product owner? Let’s build your idea.<br/>Contributor or builder? Let’s build together.</p><div class="contact-actions"><a class="pill dark-pill" href={`mailto:${profile.email}`}>Say hello <span>↗</span></a><button class="copy-email" onclick={copyEmail} aria-label="Copy email address">{profile.email}<span>{copied ? '✓' : '⧉'}</span></button><span class="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span></div></div></section>
   </main>
-  <div class="build-credit container"><p>Thought, designed, architected and brought to life by Ramkrishna More.</p><span>Built with GPT Astra and Claude Opus models.</span></div>
-  <footer class="container"><a class="footer-name" href="#top">Ramkrishna More<span>↗</span></a><span>Made with Madness.</span><div><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé ↗</a></div><small>© {new Date().getFullYear()}</small></footer>
+  <div class="build-credit container"><p>Imagined, designed and built with intent.</p><span>Built with GPT Astra and Claude Opus models.</span></div>
+  <footer class="container"><a class="footer-name" href="#top">Back to top<span>↗</span></a><span>Made with Madness.</span><div><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé ↗</a></div><small>© {new Date().getFullYear()}</small></footer>
 </div>
 
 <dialog bind:this={dialog} onclose={() => selected = null} onclick={(event) => {if(event.target === dialog) dialog.close();}} onkeydown={(event) => {if(event.key === 'Escape') dialog.close();}} aria-labelledby="case-title">
