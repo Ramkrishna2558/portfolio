@@ -68,7 +68,18 @@ export function enhanceMotion(options) {
   listen(window, 'scroll', () => { release(); if (sectionPending) haptics.section(); clearTimeout(settleTimer); settleTimer = setTimeout(() => { sectionPending = false; }, 180); if (!scrollFrame) scrollFrame = requestAnimationFrame(scrollUpdate); }, { passive: true });
   listen(window, 'resize', () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(scrollUpdate); }, { passive: true });
   const seen = new WeakSet();
-  const observer = new IntersectionObserver(entries => { for (const entry of entries) { if (!entry.isIntersecting) continue; observer.unobserve(entry.target); if (options.allowed()) track(entry.target.animate([{ opacity: .1, transform: 'perspective(1200px) translate3d(0,80px,-90px) rotateX(9deg) scale(.93)' }, { opacity: 1, transform: 'perspective(1200px) translate3d(0,-5px,0) rotateX(-.7deg) scale(1.006)', offset: .72 }, { opacity: 1, transform: 'perspective(1200px) translate3d(0,0,0) rotateX(0) scale(1)' }], { duration: 1150, easing: 'cubic-bezier(.16,1,.3,1)' })); } }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+  // Fade containers without moving their hit targets during a first click or tap.
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      observer.unobserve(entry.target);
+      if (options.allowed()) {
+        track(entry.target.animate([{ opacity: .45 }, { opacity: 1 }], {
+          duration: 450, easing: 'ease-out'
+        }));
+      }
+    }
+  }, { threshold: .02, rootMargin: '0px 0px 80px 0px' });
   const scan = () => { document.querySelectorAll('.project,.about-text,.about-facts,.job,.repo-row,.hub-tile').forEach(el => { if (!seen.has(el)) { seen.add(el); observer.observe(el); } }); };
   const mutation = new MutationObserver(scan); mutation.observe(document.querySelector('main'), { childList: true, subtree: true }); scan();
   function refresh() { root.classList.toggle('motion-enabled', options.allowed()); if (!options.allowed()) haptics.stop(); depthFlow.update(); if (!options.allowed()) { animations.forEach(a => a.cancel()); cancelAnimationFrame(frame); frame = 0; aura.classList.remove('visible'); resetHover(); release(); } }

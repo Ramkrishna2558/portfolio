@@ -37,3 +37,11 @@ Haptic feedback uses short, rate-limited pulses on confirmed clicks, holds and s
 ## Personal hub
 
 `src/components/PersonalHub.svelte` contains the Beyond the build section, with social links, a photo/bio, an optional Spotify player and a Buy Me a Coffee link. Links and the music selection were reviewed against own.page/ram; the layout is original. The Spotify iframe loads only after the visitor requests it, and the external Spotify link remains available. Update social handles and the album ID in this component.
+
+## Evidence and editorial structure
+
+The hero leads directly to selected work. The decorative 3D interlude follows the projects and loads near the viewport. `src/styles/editorial.css` contains the reading and interaction refinements.
+
+MTSE's case study links to inspected API, validation and routing source. Its overview and storefront currently disagree on framework; the case study explicitly limits its claims to the shared library. Résumé metrics are labeled as self-reported, without published baseline or coverage artifacts. Automart uses a delivery-scope diagram, not a reconstructed screenshot. Add original client-approved screenshots and measurement artifacts when available.
+
+Interactive cards fade into view without translating their hit targets. Headings settle before reading, and project/career content does not fade away while being read. Reader mode and reduced motion remain supported.

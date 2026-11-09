@@ -1,0 +1,60 @@
+/* Keep the work close to the introduction and the reading surface still. */
+.hero-heading { margin-top: 45px; }
+.hero h1 { font-size: clamp(36px, 4.4vw, 62px); }
+.hero-description { font-size: 15px; max-width: 590px; padding-inline: 20px; }
+.portrait-stage { height: 235px; margin-top: 12px; }
+.portrait-depth, .portrait-wrap { width: 230px; height: 230px; }
+.note-left, .note-right { top: 65px; }
+.hero-bottom { padding-block: 14px; }
+.hero-bottom, .overline { font-size: 10px; }
+.work { padding-top: 48px; }
+.depth-interlude { min-height: 0; padding-block: 50px; }
+.sculpture-stage { height: 360px; }
+.interlude-copy > p:not(.overline) { font-size: 16px; line-height: 1.8; max-width: 470px; }
+.project-summary > p, .capability-list p, .repo-row p { font-size: 15px; line-height: 1.8; color: #625d6b; }
+.project-summary .project-meta, .tags > span, .repo-row small, .repo-row > span { font-size: 11px; }
+.section-heading > p, .inline-link, .journey-step .journey-summary { font-size: 14px; }
+.journey-step p, .case p:not(.overline):not(.case-headline), .case li { font-size: 16px; line-height: 1.8; color: #625d6b; }
+.journey-step .journey-label { font-size: 11px; line-height: 1.7; }
+.project, .journey-step { opacity: 1; translate: none; }
+.motion-enabled .hero-heading, .motion-enabled .hero h1 .word-space { animation-duration: .6s; animation-delay: 0s; }
+.motion-enabled .portrait-depth, .motion-enabled .portrait-wrap > img { animation-duration: .85s; animation-delay: .08s; }
+.motion-enabled .pill, .motion-enabled .pill:hover { translate: none; transform: none; }
+button:hover, button:active, .pill:hover, .pill:active,
+.motion-enabled button:active, .motion-enabled .pill:active { scale: 1; }
+.motion-enabled .repo-row:hover { padding-inline: 0; }
+.delivery-map { position: absolute; inset: 25% 8% 15%; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.delivery-kicker { font-size: 10px; letter-spacing: 1.2px; }
+.delivery-map > strong { font: 600 clamp(22px, 2.6vw, 38px)/1.15 Manrope, sans-serif; letter-spacing: -1.2px; }
+.delivery-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.delivery-steps > span { font-size: 12px; line-height: 1.5; border-top: 1px solid #83705d55; padding-top: 10px; }
+.delivery-steps b { display: block; font-size: 10px; opacity: .7; margin-bottom: 6px; }
+.delivery-map > small { font-size: 11px; }
+.case-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; padding-block: 22px; border-block: 1px solid #8884; }
+.case-facts span { font-size: 12px; }
+.case-facts strong { display: block; font-size: 15px; margin-top: 8px; }
+.case h3 { font-size: 20px; margin-top: 32px; }
+.case-walkthrough { padding-left: 24px; }
+.case-walkthrough li { padding-left: 6px; margin-bottom: 24px; }
+.case-walkthrough p { margin-block: 8px; }
+.case-walkthrough a { font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+.case .case-note { font-size: 13px !important; }
+.case .engineering-note summary { font-size: 15px; line-height: 1.6; }
+.close-case { position: sticky; top: 0; float: right; background: #f2eff7; border-radius: 50%; z-index: 2; }
+.dark-theme .project-summary > p { color: #c4bace; }
+:where(a, button, summary):focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
+@media (max-width: 700px) {
+  .hero-heading { margin-top: 40px; }
+  .hero h1 { font-size: clamp(31px, 7.4vw, 43px); }
+  .hero-heading > .overline { font-size: 9px; letter-spacing: 1px; }
+  .hero-description { font-size: 14px; }
+  .portrait-stage { height: 205px; }
+  .portrait-depth, .portrait-wrap { width: 200px; height: 200px; }
+  .hero-bottom { font-size: 8px; }
+  .delivery-map { gap: 14px; }
+  .delivery-map > strong { font-size: 27px; }
+  .delivery-kicker { font-size: 8px; }
+  .delivery-steps > span { font-size: 11px; }
+  .case-facts { grid-template-columns: 1fr; gap: 16px; }
+  .case { padding: 24px; }
+}

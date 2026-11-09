@@ -10,7 +10,7 @@
     const fine = matchMedia('(hover: hover) and (pointer: fine)');
     const update = () => {
       const allowed = !reduced.matches && fine.matches && document.documentElement.classList.contains('motion-enabled');
-      if(allowed && !instance) instance = Atropos({el:element, activeOffset:35, rotateXMax:10, rotateYMax:12, duration:700, rotateTouch:false, shadow:false, highlight:true});
+      if(allowed && !instance) instance = Atropos({el:element, activeOffset:10, rotateXMax:3, rotateYMax:4, duration:700, rotateTouch:false, shadow:false, highlight:true});
       if(!allowed && instance) { instance.destroy(); instance = null; }
     };
     const observer = new MutationObserver(update);

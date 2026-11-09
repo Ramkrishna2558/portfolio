@@ -7,3 +7,5 @@ mount(App, { target: document.getElementById('app') });
 import './styles/views.css';
 
 import './styles/hub.css';
+
+import './styles/editorial.css';
