@@ -56,7 +56,7 @@ export function enhanceMotion(options) {
   listen(document, 'pointerout', e => { if (!e.relatedTarget) { aura.classList.remove('visible'); resetHover(); release(); } });
   listen(window, 'blur', () => { aura.classList.remove('visible'); resetHover(); release(); haptics.stop(); });
   const depthFlow = createDepthFlow(options);
-  const sections = ['top', 'work', 'about', 'experience', 'beyond', 'contact'].map(id => document.getElementById(id));
+  const sections = ['top', 'work', 'thinking', 'about', 'experience', 'beyond', 'contact'].map(id => document.getElementById(id));
   function scrollUpdate() {
     scrollFrame = 0; depthFlow.update();
     const total = root.scrollHeight - innerHeight;

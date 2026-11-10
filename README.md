@@ -45,3 +45,7 @@ The hero leads directly to selected work. The decorative 3D interlude has been r
 MTSE's case study links to inspected API, validation and routing source. Its overview and storefront currently disagree on framework; the case study explicitly limits its claims to the shared library. Résumé metrics are labeled as self-reported, without published baseline or coverage artifacts. Automart uses a delivery-scope diagram, not a reconstructed screenshot. Add original client-approved screenshots and measurement artifacts when available.
 
 Interactive cards fade into view without translating their hit targets. Headings settle before reading, and project/career content does not fade away while being read. Reader mode and reduced motion remain supported.
+
+## Human × AI exploration
+
+`ThinkingLab.svelte` and `thinking.css` implement a lightweight CSS 3D concept study after selected work. Three curated scenarios connect a human brief, AI assistance and human judgment to a proposed outcome and evaluation plan. No model is called and no visitor data is sent. Choosing another scenario resets the assembled state. Semantic buttons support keyboard/touch; reduced motion disables transitions and Reader mode hides the decorative layers while retaining all the substantive content.

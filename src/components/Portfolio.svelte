@@ -2,6 +2,7 @@
   import Words from './Words.svelte';
   import DepthCard from './DepthCard.svelte';
   import Motion from './Motion.svelte';
+  import ThinkingLab from './ThinkingLab.svelte';
   import PersonalHub from './PersonalHub.svelte';
   import ViewControls from './ViewControls.svelte';
   import { onDestroy, onMount } from 'svelte';
@@ -89,6 +90,8 @@
       </div>
       <a class="github-link" href={profile.github} target="_blank" rel="noreferrer">More of the making on GitHub <span>↗</span></a>
     </section>
+
+    <ThinkingLab />
 
     <section class="about container" id="about" aria-labelledby="about-title"><div class="section-heading"><div><p class="overline">02 / THE PERSON BEHIND THE CODE</p><h2 id="about-title"><Words text="Curiosity first."/><br/><Words text="Craft, always."/></h2></div><span class="asterisk" aria-hidden="true">✳</span></div><div class="about-grid"><div class="about-text"><p class="lead">I make complex things feel simple.</p><p>I connect real business problems with working software. My next chapter is forward-deployed engineering: working closely with users, shaping solutions and carrying them through to delivery.</p><a class="inline-link" href={profile.linkedin} target="_blank" rel="noreferrer">A little more about me on LinkedIn ↗</a></div><div class="about-facts"><p class="overline">FROM PROBLEM TO PRODUCTION</p><div class="capability-list"><div><h3>Understand & shape</h3><p>Technical problem-solving, user workflows, reusable architecture and product thinking.</p></div><div><h3>Build & connect</h3><p>Angular, React, TypeScript, RxJS, REST APIs and shared application tooling.</p></div><div><h3>Test & deliver</h3><p>Vitest, Git, performance profiling, dependency audits and reliable integrations.</p></div><div><h3>Explore the next frontier</h3><p>AI-assisted development with GPT, Claude and Copilot. Growing toward applied AI and forward-deployed delivery.</p></div></div><details class="education"><summary>Education <span>+</span></summary><h3>B.E. in Information Technology</h3><p>PVG College of Engineering, Nashik<br/>University of Pune · 2022</p><small>First Class with Distinction</small></details></div></div></section>
 

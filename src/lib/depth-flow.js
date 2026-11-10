@@ -2,7 +2,7 @@ export function createDepthFlow(options) {
   const root=document.documentElement;
   const wordGroups=[...document.querySelectorAll('.scroll-words')];
   const exitItems=[...document.querySelectorAll('.side-note')];
-  const themes=[['.hero',[255,255,255]],['#work',[235,240,255]],['#about',[244,248,242]],['#experience',[255,240,230]],['#beyond',[238,243,242]],['#contact',[239,231,255]]].map(([selector,color])=>({el:document.querySelector(selector),color}));
+  const themes=[['.hero',[255,255,255]],['#work',[235,240,255]],['#thinking',[245,239,252]],['#about',[244,248,242]],['#experience',[255,240,230]],['#beyond',[238,243,242]],['#contact',[239,231,255]]].map(([selector,color])=>({el:document.querySelector(selector),color}));
   const clamp=v=>Math.min(1,Math.max(0,v));
   function update(){
     const allowed=options.allowed();

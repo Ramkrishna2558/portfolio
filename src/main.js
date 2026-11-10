@@ -9,3 +9,5 @@ import './styles/views.css';
 import './styles/hub.css';
 
 import './styles/editorial.css';
+
+import './styles/thinking.css';
